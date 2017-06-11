@@ -1,0 +1,370 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		89215B5A1EED3CAA00ED9EBF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 89215B451EED3CAA00ED9EBF /* AppDelegate.m */; };
+		89215B5B1EED3CAA00ED9EBF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89215B461EED3CAA00ED9EBF /* Assets.xcassets */; };
+		89215B5C1EED3CAA00ED9EBF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89215B471EED3CAA00ED9EBF /* LaunchScreen.storyboard */; };
+		89215B5D1EED3CAA00ED9EBF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89215B491EED3CAA00ED9EBF /* Main.storyboard */; };
+		89215B5E1EED3CAA00ED9EBF /* TFScrollSimulateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89215B4D1EED3CAA00ED9EBF /* TFScrollSimulateView.m */; };
+		89215B5F1EED3CAA00ED9EBF /* UIScrollView+ForwardHitTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 89215B4F1EED3CAA00ED9EBF /* UIScrollView+ForwardHitTest.m */; };
+		89215B601EED3CAA00ED9EBF /* flowers@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 89215B501EED3CAA00ED9EBF /* flowers@2x.jpg */; };
+		89215B611EED3CAA00ED9EBF /* ice@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 89215B511EED3CAA00ED9EBF /* ice@2x.jpg */; };
+		89215B621EED3CAA00ED9EBF /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 89215B521EED3CAA00ED9EBF /* Info.plist */; };
+		89215B631EED3CAA00ED9EBF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 89215B531EED3CAA00ED9EBF /* main.m */; };
+		89215B641EED3CAA00ED9EBF /* river@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 89215B541EED3CAA00ED9EBF /* river@2x.jpg */; };
+		89215B651EED3CAB00ED9EBF /* TFMultiTabScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89215B571EED3CAA00ED9EBF /* TFMultiTabScrollView.m */; };
+		89215B661EED3CAB00ED9EBF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89215B591EED3CAA00ED9EBF /* ViewController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		89215B441EED3CAA00ED9EBF /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		89215B451EED3CAA00ED9EBF /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		89215B461EED3CAA00ED9EBF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		89215B481EED3CAA00ED9EBF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		89215B4A1EED3CAA00ED9EBF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		89215B4C1EED3CAA00ED9EBF /* TFScrollSimulateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFScrollSimulateView.h; sourceTree = "<group>"; };
+		89215B4D1EED3CAA00ED9EBF /* TFScrollSimulateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFScrollSimulateView.m; sourceTree = "<group>"; };
+		89215B4E1EED3CAA00ED9EBF /* UIScrollView+ForwardHitTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+ForwardHitTest.h"; sourceTree = "<group>"; };
+		89215B4F1EED3CAA00ED9EBF /* UIScrollView+ForwardHitTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+ForwardHitTest.m"; sourceTree = "<group>"; };
+		89215B501EED3CAA00ED9EBF /* flowers@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "flowers@2x.jpg"; sourceTree = "<group>"; };
+		89215B511EED3CAA00ED9EBF /* ice@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "ice@2x.jpg"; sourceTree = "<group>"; };
+		89215B521EED3CAA00ED9EBF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		89215B531EED3CAA00ED9EBF /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		89215B541EED3CAA00ED9EBF /* river@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "river@2x.jpg"; sourceTree = "<group>"; };
+		89215B561EED3CAA00ED9EBF /* TFMultiTabScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFMultiTabScrollView.h; sourceTree = "<group>"; };
+		89215B571EED3CAA00ED9EBF /* TFMultiTabScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFMultiTabScrollView.m; sourceTree = "<group>"; };
+		89215B581EED3CAA00ED9EBF /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		89215B591EED3CAA00ED9EBF /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		DF02D7B01E8DF71C00433601 /* MultiTableView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultiTableView.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DF02D7AD1E8DF71C00433601 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		89215B431EED3CAA00ED9EBF /* TFMultiTabScrollView */ = {
+			isa = PBXGroup;
+			children = (
+				89215B551EED3CAA00ED9EBF /* TFMultiTabScrollView */,
+				89215B4B1EED3CAA00ED9EBF /* failedTry */,
+				89215B441EED3CAA00ED9EBF /* AppDelegate.h */,
+				89215B451EED3CAA00ED9EBF /* AppDelegate.m */,
+				89215B581EED3CAA00ED9EBF /* ViewController.h */,
+				89215B591EED3CAA00ED9EBF /* ViewController.m */,
+				89215B671EED3D2F00ED9EBF /* supportFiles */,
+			);
+			path = TFMultiTabScrollView;
+			sourceTree = "<group>";
+		};
+		89215B4B1EED3CAA00ED9EBF /* failedTry */ = {
+			isa = PBXGroup;
+			children = (
+				89215B4C1EED3CAA00ED9EBF /* TFScrollSimulateView.h */,
+				89215B4D1EED3CAA00ED9EBF /* TFScrollSimulateView.m */,
+				89215B4E1EED3CAA00ED9EBF /* UIScrollView+ForwardHitTest.h */,
+				89215B4F1EED3CAA00ED9EBF /* UIScrollView+ForwardHitTest.m */,
+			);
+			path = failedTry;
+			sourceTree = "<group>";
+		};
+		89215B551EED3CAA00ED9EBF /* TFMultiTabScrollView */ = {
+			isa = PBXGroup;
+			children = (
+				89215B561EED3CAA00ED9EBF /* TFMultiTabScrollView.h */,
+				89215B571EED3CAA00ED9EBF /* TFMultiTabScrollView.m */,
+			);
+			path = TFMultiTabScrollView;
+			sourceTree = "<group>";
+		};
+		89215B671EED3D2F00ED9EBF /* supportFiles */ = {
+			isa = PBXGroup;
+			children = (
+				89215B461EED3CAA00ED9EBF /* Assets.xcassets */,
+				89215B471EED3CAA00ED9EBF /* LaunchScreen.storyboard */,
+				89215B491EED3CAA00ED9EBF /* Main.storyboard */,
+				89215B501EED3CAA00ED9EBF /* flowers@2x.jpg */,
+				89215B511EED3CAA00ED9EBF /* ice@2x.jpg */,
+				89215B521EED3CAA00ED9EBF /* Info.plist */,
+				89215B531EED3CAA00ED9EBF /* main.m */,
+				89215B541EED3CAA00ED9EBF /* river@2x.jpg */,
+			);
+			name = supportFiles;
+			sourceTree = "<group>";
+		};
+		DF02D7A71E8DF71C00433601 = {
+			isa = PBXGroup;
+			children = (
+				89215B431EED3CAA00ED9EBF /* TFMultiTabScrollView */,
+				DF02D7B11E8DF71C00433601 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DF02D7B11E8DF71C00433601 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DF02D7B01E8DF71C00433601 /* MultiTableView.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DF02D7AF1E8DF71C00433601 /* MultiTableView */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DF02D7DD1E8DF71C00433601 /* Build configuration list for PBXNativeTarget "MultiTableView" */;
+			buildPhases = (
+				DF02D7AC1E8DF71C00433601 /* Sources */,
+				DF02D7AD1E8DF71C00433601 /* Frameworks */,
+				DF02D7AE1E8DF71C00433601 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MultiTableView;
+			productName = MultiTableView;
+			productReference = DF02D7B01E8DF71C00433601 /* MultiTableView.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DF02D7A81E8DF71C00433601 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = "wei shi";
+				TargetAttributes = {
+					DF02D7AF1E8DF71C00433601 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = UML9BQURX9;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = DF02D7AB1E8DF71C00433601 /* Build configuration list for PBXProject "MultiTableView" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = DF02D7A71E8DF71C00433601;
+			productRefGroup = DF02D7B11E8DF71C00433601 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DF02D7AF1E8DF71C00433601 /* MultiTableView */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DF02D7AE1E8DF71C00433601 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				89215B641EED3CAA00ED9EBF /* river@2x.jpg in Resources */,
+				89215B611EED3CAA00ED9EBF /* ice@2x.jpg in Resources */,
+				89215B5D1EED3CAA00ED9EBF /* Main.storyboard in Resources */,
+				89215B621EED3CAA00ED9EBF /* Info.plist in Resources */,
+				89215B601EED3CAA00ED9EBF /* flowers@2x.jpg in Resources */,
+				89215B5B1EED3CAA00ED9EBF /* Assets.xcassets in Resources */,
+				89215B5C1EED3CAA00ED9EBF /* LaunchScreen.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DF02D7AC1E8DF71C00433601 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				89215B661EED3CAB00ED9EBF /* ViewController.m in Sources */,
+				89215B5A1EED3CAA00ED9EBF /* AppDelegate.m in Sources */,
+				89215B5E1EED3CAA00ED9EBF /* TFScrollSimulateView.m in Sources */,
+				89215B631EED3CAA00ED9EBF /* main.m in Sources */,
+				89215B651EED3CAB00ED9EBF /* TFMultiTabScrollView.m in Sources */,
+				89215B5F1EED3CAA00ED9EBF /* UIScrollView+ForwardHitTest.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		89215B471EED3CAA00ED9EBF /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				89215B481EED3CAA00ED9EBF /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		89215B491EED3CAA00ED9EBF /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				89215B4A1EED3CAA00ED9EBF /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		DF02D7DB1E8DF71C00433601 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		DF02D7DC1E8DF71C00433601 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		DF02D7DE1E8DF71C00433601 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = UML9BQURX9;
+				INFOPLIST_FILE = "$(SRCROOT)/TFMultiTabScrollView/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = weishi.MultiTableView;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		DF02D7DF1E8DF71C00433601 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = UML9BQURX9;
+				INFOPLIST_FILE = "$(SRCROOT)/TFMultiTabScrollView/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = weishi.MultiTableView;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DF02D7AB1E8DF71C00433601 /* Build configuration list for PBXProject "MultiTableView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DF02D7DB1E8DF71C00433601 /* Debug */,
+				DF02D7DC1E8DF71C00433601 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DF02D7DD1E8DF71C00433601 /* Build configuration list for PBXNativeTarget "MultiTableView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DF02D7DE1E8DF71C00433601 /* Debug */,
+				DF02D7DF1E8DF71C00433601 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DF02D7A81E8DF71C00433601 /* Project object */;
+}
