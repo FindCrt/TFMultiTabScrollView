@@ -9,6 +9,8 @@
 #import "ViewController.h"
 #import "TFMultiTabScrollView.h"
 
+#define ScreenWidth     ([UIScreen mainScreen].bounds.size.width)
+
 @interface ViewController ()<UITableViewDelegate, UITableViewDataSource, TFMultiTabScrollViewDelegate>{
     TFMultiTabScrollView *_tabScrollView;
     
@@ -59,11 +61,11 @@
 
 -(UIView *)headerViewForMultiTabScrollView:(TFMultiTabScrollView *)multiTabScrollView{
     
-    UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 375, 280)];
+    UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 280)];
     header.backgroundColor = [UIColor whiteColor];
     
     
-    //在头部视图里添加一个scrollView，测试头部的滚动事件是否正确
+    //在头部视图里添加一个scrollView，测试头部的ScrollView滚动事件是否正确
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:header.bounds];
     scrollView.pagingEnabled = YES;
     scrollView.contentSize = CGSizeMake(scrollView.frame.size.width*3, 280);
@@ -71,7 +73,7 @@
     
     NSArray *cardImgNames = @[@"flowers",@"river",@"ice"];
     for (int i = 0; i<3; i++) {
-        UIImageView *card = [[UIImageView alloc] initWithFrame:CGRectMake(375*i+35, 20, 300, 200)];
+        UIImageView *card = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth*i+35, 20, 300, 200)];
         card.image = [UIImage imageNamed:cardImgNames[i]];
         card.layer.cornerRadius = 5;
         card.layer.masksToBounds = YES;
@@ -79,6 +81,14 @@
         [scrollView addSubview:card];
     }
     [header addSubview:scrollView];
+    
+    
+    //添加一个滑动手势测试普通的滑动事件是否正常
+    UIView *panTestView = [[UIView alloc] initWithFrame:CGRectMake(20, 20, ScreenWidth-40, 80)];
+    panTestView.backgroundColor = [UIColor purpleColor];
+    [panTestView addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panTest:)]];
+    //[header addSubview:panTestView];
+    
     
     
     //头部添加一个按钮，测试点击事件是否正确
@@ -112,6 +122,10 @@
     NSLog(@"tap header button");
     
     [_booksTableView self];
+}
+
+-(void)panTest:(UIPanGestureRecognizer *)pan{
+    NSLog(@"pan gesture catched");
 }
 
 #pragma mark - tableView delegate & data source

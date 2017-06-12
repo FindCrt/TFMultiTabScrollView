@@ -42,7 +42,7 @@
 -(void)commonInit{
     _pan = [[UIPanGestureRecognizer alloc] initWithTarget:nil action:nil];
     _pan.delegate = self;
-    _pan.cancelsTouchesInView = NO;
+    //_pan.cancelsTouchesInView = NO;
     [self addGestureRecognizer:_pan];
 }
 
