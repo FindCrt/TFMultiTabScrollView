@@ -178,6 +178,9 @@
     _headerContainer = [[TFTabScrollHeaderView alloc] initWithFrame:(CGRectMake(0, -(_topHeight + kMultiScrollViewTabHeight), totalWidth, _topHeight + kMultiScrollViewTabHeight))];
     _headerContainer.tabContainer = _tabViewContainer;
     
+    //初始时头部全部显示
+    _currentVisableHeaderH = _topHeight + kMultiScrollViewTabHeight;
+    
     UIScrollView *currentScrollView = _tabScrollViews[0];
     [currentScrollView addSubview:_headerContainer];
     
