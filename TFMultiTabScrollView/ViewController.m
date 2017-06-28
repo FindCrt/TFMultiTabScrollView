@@ -36,7 +36,8 @@
     _moviesTableView.dataSource = self;
     
     _musicView = [[UIScrollView alloc] initWithFrame:(CGRectZero)];
-    _musicView.contentSize = CGSizeMake(100, 100);
+    _musicView.contentSize = CGSizeMake(100, 300);
+    _musicView.bounces = YES;
     UILabel *label = [[UILabel alloc] initWithFrame:(CGRectMake(30, 50, [UIScreen mainScreen].bounds.size.width - 60, 120))];
     label.text = @"Music List";
     label.backgroundColor = [UIColor orangeColor];
@@ -50,6 +51,7 @@
     _tabScrollView = [[TFMultiTabScrollView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     _tabScrollView.delegate = self;
     _tabScrollView.moveHeaderOnlyContentTop = YES;
+    _tabScrollView.autoFillContent = NO;
     [self.view addSubview:_tabScrollView];
 }
 

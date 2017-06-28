@@ -259,6 +259,7 @@
     [curTabButton setTitleColor:_tabHighlightColor forState:(UIControlStateNormal)];
     
     _selectedTabIndex = index;
+    
     if ([self.delegate respondsToSelector:@selector(multiTabScrollView:switchToTab:)]) {
         [self.delegate multiTabScrollView:self switchToTab:_selectedTabIndex];
     }
@@ -403,6 +404,8 @@
         self.userInteractionEnabled = YES;
         _destinationsIndex = kTFDestinationsIndexEmpty;
         [self moveHeaderToContentView];
+        
+        [self adjustContentScrollViewOffset];
     }
 }
 
@@ -410,6 +413,8 @@
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
     
     [self moveHeaderToContentView];
+
+    [self adjustContentScrollViewOffset];
 }
 
 //滑动结束时，把头部再放回当前显示的scrolView
@@ -422,6 +427,23 @@
         _headerContainer.frame = frame;
         
         [currentContentView addSubview:_headerContainer];
+    }
+}
+
+//如果分页scrollView的内容比较少，可能当前contentOffset超过最大值了，调整回来
+-(void)adjustContentScrollViewOffset{
+    if (_autoFillContent) {
+        return;
+    }
+    
+    UIScrollView *currentContentView = _tabScrollViews[_selectedTabIndex];
+    
+    //scrollView无法滚动的时候，即使contentSize设成0，但实际有空间展示内容，这里求的就是最少的展示空间高度
+    CGFloat showContentY = MAX(currentContentView.contentSize.height, currentContentView.frame.size.height - currentContentView.contentInset.top - currentContentView.contentInset.bottom);
+    
+    CGFloat maxContentOffsetY = showContentY - currentContentView.frame.size.height;
+    if (currentContentView.contentOffset.y > maxContentOffsetY) {
+        [currentContentView setContentOffset:CGPointMake(currentContentView.contentOffset.x, maxContentOffsetY) animated:YES];
     }
 }
 
