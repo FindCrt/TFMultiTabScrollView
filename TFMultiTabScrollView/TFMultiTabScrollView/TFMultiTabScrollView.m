@@ -100,7 +100,7 @@
 
 @property (nonatomic, strong) UIView *headerView;
 
-@property (nonatomic, assign) BOOL moveHeaderOnlyContentTop;
+//@property (nonatomic, assign) BOOL moveHeaderOnlyContentTop;
 
 @end
 
@@ -311,7 +311,7 @@
         
         if (_moveHeaderOnlyContentTop) {
             
-            //内容没有滑到顶部时，保持头部不移动
+            
             if (headerFrame.origin.y > -headerFrame.size.height) {
                 
                 headerFrame.origin.y = _topSpace + offsetY + kMultiScrollViewTabHeight - headerFrame.size.height;
@@ -460,19 +460,31 @@
 
 //调整分页scrollView，让内容跟随头部移动；离开时头部靠着什么内容，回来时还是什么内容
 -(void)adjustContentScrollViewOffsetToFollowHeader{
+    
+    CGFloat currentScrollViewOffsetY = [_tabScrollViews[_selectedTabIndex] contentOffset].y;
+    CGRect headerFrame = _headerContainer.frame;
+    _currentVisableHeaderH = headerFrame.origin.y + headerFrame.size.height - currentScrollViewOffsetY;
+    
     for (int i = 0; i<_tabScrollViews.count; i++) {
         if (i == _selectedTabIndex) {
             continue;
         }
         
         UIScrollView *tabScrollView = _tabScrollViews[i];
-        CGFloat headerYChange = _currentVisableHeaderH - [[_visableHeaderHDic objectForKey:@(i)] floatValue];
         CGPoint contentOffset = tabScrollView.contentOffset;
-        contentOffset.y -= headerYChange;
+        if (_moveHeaderOnlyContentTop &&  _currentVisableHeaderH > _topSpace + kMultiScrollViewTabHeight) {
+            contentOffset.y = currentScrollViewOffsetY;
+        }else{
+            CGFloat headerYChange = _currentVisableHeaderH - [[_visableHeaderHDic objectForKey:@(i)] floatValue];
+            contentOffset.y = contentOffset.y - headerYChange;
+        }
         
         _ignoreOffsetChangesScrollView = tabScrollView;
         tabScrollView.contentOffset = contentOffset;
         _ignoreOffsetChangesScrollView = nil;
+        
+        //update _visableHeaderHDic after changing content offset.
+        [_visableHeaderHDic setObject:@(_currentVisableHeaderH) forKey:@(i)];
     }
 }
 

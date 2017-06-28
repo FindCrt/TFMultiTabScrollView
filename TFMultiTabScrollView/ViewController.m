@@ -50,6 +50,7 @@
     
     _tabScrollView = [[TFMultiTabScrollView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     _tabScrollView.delegate = self;
+    _tabScrollView.moveHeaderOnlyContentTop = NO;
     _tabScrollView.autoFillContent = NO;
     [self.view addSubview:_tabScrollView];
 }
@@ -166,7 +167,7 @@
         }
     }else{
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:nil];
-        cell.textLabel.text = [NSString stringWithFormat:@"movie %ld",(long)indexPath.row];
+        cell.textLabel.text = [NSString stringWithFormat:@"movie %ld",(long)indexPath.row + indexPath.section * 3];
         return cell;
     }
 }
