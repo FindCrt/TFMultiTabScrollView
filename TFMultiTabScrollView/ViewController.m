@@ -50,7 +50,6 @@
     
     _tabScrollView = [[TFMultiTabScrollView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     _tabScrollView.delegate = self;
-    _tabScrollView.moveHeaderOnlyContentTop = YES;
     _tabScrollView.autoFillContent = NO;
     [self.view addSubview:_tabScrollView];
 }

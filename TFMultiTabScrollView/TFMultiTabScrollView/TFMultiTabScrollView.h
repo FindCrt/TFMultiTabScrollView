@@ -85,7 +85,7 @@
  YES时，内容视图部分的顶部要衔接到头部视图的顶部，才能拖动头部视图，即只有内容视图滑到顶才会移动头部；参考微博/简书个人中心
  NO时，只要滑动内容视图，头部都会跟随变化，类似safari的导航栏搜索框
  */
-@property (nonatomic, assign) BOOL moveHeaderOnlyContentTop;
+//@property (nonatomic, assign) BOOL moveHeaderOnlyContentTop;
 
 
 /**

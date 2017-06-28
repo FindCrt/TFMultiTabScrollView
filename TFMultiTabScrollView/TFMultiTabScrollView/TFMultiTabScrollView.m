@@ -91,9 +91,16 @@
     
     //点击切换分页时目标位置，只是用来区分点击切换分页和滚动切换
     NSInteger _destinationsIndex;
+    
+    //记录离开某个分页时，头部当时的可见高度,用来在再次回到那个页面时让内容和头部保持不变相对位置
+    NSMutableDictionary *_visableHeaderHDic;
+    
+    UIScrollView *_ignoreOffsetChangesScrollView;
 }
 
 @property (nonatomic, strong) UIView *headerView;
+
+@property (nonatomic, assign) BOOL moveHeaderOnlyContentTop;
 
 @end
 
@@ -103,6 +110,8 @@
     if (self = [super initWithFrame:frame]) {
         _tabHighlightColor = [UIColor redColor];
         _autoFillContent = YES;
+        _moveHeaderOnlyContentTop = YES;
+        _visableHeaderHDic = [[NSMutableDictionary alloc] init];
     }
     
     return self;
@@ -145,6 +154,9 @@
     //添加每个tab的子scrollVew
     _tabScrollViews = [[NSMutableArray alloc] init];
     for (int i = 0; i < _tabNames.count; i++) {
+        
+        [_visableHeaderHDic setObject:@(_topHeight + kMultiScrollViewTabHeight) forKey:@(i)];
+        
         UIScrollView *tabScrollView = [self.delegate tabScrollviewForMultiTabScrollView:self atTabIndex:i];
         
         tabScrollView.contentInset = UIEdgeInsetsMake(_topHeight + kMultiScrollViewTabHeight, 0, 0, 0);
@@ -232,7 +244,9 @@
         return;
     }
     
-    //横向滚动过程中不再响应事件，知道滚动结束
+    [self startSwitchTabView];
+    
+    //点击造成的横向滚动过程中不再响应事件，知道滚动结束
     self.userInteractionEnabled = NO;
     
     CGFloat totalWidth = _tabViewContainer.frame.size.width;
@@ -279,11 +293,13 @@
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
     if ([keyPath isEqualToString:@"contentOffset"]) {
-
-        CGFloat offsetY = [[change objectForKey:NSKeyValueChangeNewKey] CGPointValue].y;
-        
         UIScrollView *scrollView = (UIScrollView*)object;
         
+        if (_ignoreOffsetChangesScrollView == scrollView) {
+            return;
+        }
+        
+        CGFloat offsetY = [[change objectForKey:NSKeyValueChangeNewKey] CGPointValue].y;
         CGFloat maxOffsetY = MAX(0, scrollView.contentSize.height - scrollView.frame.size.height);
         
         //头部悬浮视图跟随offset改变，但是保持tab栏可见，即最小值-_topHeight+_topSpace;当offset.y为-_topHeight时，tab栏正好贴住顶部，_topSpace是跟顶部距离
@@ -334,13 +350,10 @@
             [_headerContainer.superview bringSubviewToFront:_headerContainer];
         }
         
-        // -headerFrame.origin.y > headerFrame.size.height;这个条件和下面等价，因为_moveHeaderOnlyContentTop为YES时，且顶部跟随滑动后，下面公式成立：
-        //headerFrame.origin.y = _topSpace + offsetY + kMultiScrollViewTabHeight - headerFrame.size.height;
-        
-        //头部跟随滑动时，即内容视图到顶时，每页的scrollView的offset要相同，否则横向滑动会出现内容没到顶和头部没到顶共存的情况
-        if (offsetY <= -kMultiScrollViewTabHeight-_topSpace && _moveHeaderOnlyContentTop) {
-            [self synctabScrollViewOffsetY:offsetY exclusive:scrollView];
-        }
+//        //头部跟随滑动时，即内容视图到顶时，每页的scrollView的offset要相同，否则横向滑动会出现内容没到顶和头部没到顶共存的情况
+//        if (offsetY <= -kMultiScrollViewTabHeight-_topSpace && _moveHeaderOnlyContentTop) {
+//            [self synctabScrollViewOffsetY:offsetY exclusive:scrollView];
+//        }
         
         //加上contentInset.top后为内容超出顶部的实际距离
         if ([self.delegate respondsToSelector:@selector(multiTabScrollView:offsetChanged:)]) {
@@ -372,13 +385,18 @@
         if (tabScrollView == currentScrollView) {
             continue;
         }
-        [tabScrollView removeObserver:self forKeyPath:@"contentOffset"];
+        
+        _ignoreOffsetChangesScrollView = tabScrollView;
         tabScrollView.contentOffset = CGPointMake(tabScrollView.contentOffset.x,offsetY);
-        [tabScrollView addObserver:self forKeyPath:@"contentOffset" options:(NSKeyValueObservingOptionNew) context:nil];
+        _ignoreOffsetChangesScrollView = nil;
     }
 }
 
 #pragma mark - 横向滑动scrollView
+
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    [self startSwitchTabView];
+}
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
@@ -401,21 +419,31 @@
     //调用srollView的setContentOffset不执行EndDecelerating代理，只有在这里处理一下了
     if (_destinationsIndex != kTFDestinationsIndexEmpty && scrollView.contentOffset.x == _destinationsIndex * scrollView.frame.size.width && !scrollView.isDragging) {
         
-        self.userInteractionEnabled = YES;
-        _destinationsIndex = kTFDestinationsIndexEmpty;
-        [self moveHeaderToContentView];
-        
-        [self adjustContentScrollViewOffset];
+        [self switchTabViewCompleted];
     }
 }
 
-
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    [self switchTabViewCompleted];
+    
+}
+
+-(void)startSwitchTabView{
+    [_visableHeaderHDic setObject:@(_currentVisableHeaderH) forKey:@(_selectedTabIndex)];
+    [self adjustContentScrollViewOffsetToFollowHeader];
+}
+
+-(void)switchTabViewCompleted{
+    
+    self.userInteractionEnabled = YES;
+    _destinationsIndex = kTFDestinationsIndexEmpty;
     
     [self moveHeaderToContentView];
-
-    [self adjustContentScrollViewOffset];
+    [self clampContentScrollViewOffset];
 }
+
+#pragma mark - 切换分页时调整
+
 
 //滑动结束时，把头部再放回当前显示的scrolView
 -(void)moveHeaderToContentView{
@@ -430,8 +458,26 @@
     }
 }
 
+//调整分页scrollView，让内容跟随头部移动；离开时头部靠着什么内容，回来时还是什么内容
+-(void)adjustContentScrollViewOffsetToFollowHeader{
+    for (int i = 0; i<_tabScrollViews.count; i++) {
+        if (i == _selectedTabIndex) {
+            continue;
+        }
+        
+        UIScrollView *tabScrollView = _tabScrollViews[i];
+        CGFloat headerYChange = _currentVisableHeaderH - [[_visableHeaderHDic objectForKey:@(i)] floatValue];
+        CGPoint contentOffset = tabScrollView.contentOffset;
+        contentOffset.y -= headerYChange;
+        
+        _ignoreOffsetChangesScrollView = tabScrollView;
+        tabScrollView.contentOffset = contentOffset;
+        _ignoreOffsetChangesScrollView = nil;
+    }
+}
+
 //如果分页scrollView的内容比较少，可能当前contentOffset超过最大值了，调整回来
--(void)adjustContentScrollViewOffset{
+-(void)clampContentScrollViewOffset{
     if (_autoFillContent) {
         return;
     }
