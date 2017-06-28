@@ -11,7 +11,7 @@
 #define kTabButtonTag               1000
 #define kNormalTextColor            [UIColor darkTextColor]
 #define kResetedVisableHeaderH      -1000
-
+#define kTFDestinationsIndexEmpty   -1
 
 /**
  * 头部视图的容器，为了用于处理头部的滚动手势
@@ -89,7 +89,7 @@
     //内容滑到底部时，头部的可见高度
     CGFloat _contentBottomVisableHeaderH;
     
-    //点击切换分页时
+    //点击切换分页时目标位置，只是用来区分点击切换分页和滚动切换
     NSInteger _destinationsIndex;
 }
 
@@ -226,10 +226,16 @@
 
 -(void)switchTabView:(UIButton *)button{
     
-    CGFloat totalWidth = _tabViewContainer.frame.size.width;
-    
     NSInteger tabIndex = button.tag - kTabButtonTag;
     
+    if (tabIndex == _selectedTabIndex) {
+        return;
+    }
+    
+    //横向滚动过程中不再响应事件，知道滚动结束
+    self.userInteractionEnabled = NO;
+    
+    CGFloat totalWidth = _tabViewContainer.frame.size.width;
     _destinationsIndex = tabIndex;
     
     [_tabViewContainer setContentOffset:(CGPointMake(totalWidth * tabIndex, 0)) animated:YES];
@@ -324,6 +330,7 @@
                 headerFrame.origin.y = offsetY;
             }
             _headerContainer.frame = headerFrame;
+            [_headerContainer.superview bringSubviewToFront:_headerContainer];
         }
         
         // -headerFrame.origin.y > headerFrame.size.height;这个条件和下面等价，因为_moveHeaderOnlyContentTop为YES时，且顶部跟随滑动后，下面公式成立：
@@ -373,6 +380,7 @@
 #pragma mark - 横向滑动scrollView
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    
     NSInteger tabIndex = scrollView.contentOffset.x / scrollView.frame.size.width + 0.5;
     [self changeIndicatorToIndex:tabIndex];
     
@@ -390,8 +398,10 @@
     _headerContainer.frame = frame;
     
     //调用srollView的setContentOffset不执行EndDecelerating代理，只有在这里处理一下了
-    if (_destinationsIndex != -1 && scrollView.contentOffset.x == _destinationsIndex * scrollView.frame.size.width && !scrollView.isDragging) {
-        _destinationsIndex = -1;
+    if (_destinationsIndex != kTFDestinationsIndexEmpty && scrollView.contentOffset.x == _destinationsIndex * scrollView.frame.size.width && !scrollView.isDragging) {
+        
+        self.userInteractionEnabled = YES;
+        _destinationsIndex = kTFDestinationsIndexEmpty;
         [self moveHeaderToContentView];
     }
 }

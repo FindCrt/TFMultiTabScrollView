@@ -134,7 +134,7 @@
     if (tableView == _booksTableView){
         return 2;
     }else{
-        return 1;
+        return 10;
     }
 }
 
@@ -146,7 +146,7 @@
             return 20;
         }
     }else{
-        return 10;
+        return 3;
     }
 }
 
@@ -184,6 +184,18 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 15;
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    UIView *header = [[UIView alloc] initWithFrame:(CGRectMake(0, 0, 300, 30))];
+    header.backgroundColor = [UIColor orangeColor];
+    
+    UILabel *title = [[UILabel alloc] initWithFrame:header.bounds];
+    title.text = @"123";
+    title.textColor = [UIColor whiteColor];
+    [header addSubview:title];
+    
+    return header;
 }
 
 @end
