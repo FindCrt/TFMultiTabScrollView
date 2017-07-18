@@ -64,12 +64,6 @@
 
 
 /**
- tab栏的按钮在分页这一分页内容时的文字，以及滚动指示器的颜色
- */
-@property (nonatomic, strong) UIColor *tabHighlightColor;
-
-
-/**
  当前显示的内容分页索引
  */
 @property (nonatomic, assign) NSInteger selectedTabIndex;
@@ -92,5 +86,29 @@
  当内容高度不够时，tab栏会滚不到顶部。如果设置这个值为YES时，会自动调整contentInsert.bottom来让内容可以充满。默认YES
  */
 @property (nonatomic, assign) BOOL autoFillContent;
+
+
+
+#pragma mark - styles
+
+/**
+ tab栏的按钮在分页这一分页内容时的文字，以及滚动指示器的颜色
+ */
+@property (nonatomic, strong) UIColor *tabHighlightColor;
+
+/**
+ tab栏没有被选中时颜色,默认黑色
+ */
+@property (nonatomic, strong) UIColor *tabNormalColor;
+
+/**
+ 是否显示滑动指示器，默认YES
+ */
+@property (nonatomic, assign) BOOL showIndicator;
+
+/**
+ tab栏文字格式
+ */
+@property (nonatomic, strong) UIFont *tabTextFont;
 
 @end

@@ -9,7 +9,6 @@
 #import "TFMultiTabScrollView.h"
 
 #define kTabButtonTag               1000
-#define kNormalTextColor            [UIColor darkTextColor]
 #define kResetedVisableHeaderH      -1000
 #define kTFDestinationsIndexEmpty   -1
 
@@ -90,17 +89,18 @@
     CGFloat _contentBottomVisableHeaderH;
     
     //点击切换分页时目标位置，只是用来区分点击切换分页和滚动切换
-    NSInteger _destinationsIndex;
+    //NSInteger _destinationsIndex;
     
     //记录离开某个分页时，头部当时的可见高度,用来在再次回到那个页面时让内容和头部保持不变相对位置
     NSMutableDictionary *_visableHeaderHDic;
     
     UIScrollView *_ignoreOffsetChangesScrollView;
+    
+    BOOL _headerMoving;
+    BOOL _clickToSwitchTab;
 }
 
 @property (nonatomic, strong) UIView *headerView;
-
-//@property (nonatomic, assign) BOOL moveHeaderOnlyContentTop;
 
 @end
 
@@ -109,6 +109,9 @@
 -(instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
         _tabHighlightColor = [UIColor redColor];
+        _tabNormalColor = [UIColor colorWithWhite:0.6 alpha:1];
+        _tabTextFont = [UIFont systemFontOfSize:15];
+        _showIndicator = YES;
         _autoFillContent = YES;
         _moveHeaderOnlyContentTop = YES;
         _visableHeaderHDic = [[NSMutableDictionary alloc] init];
@@ -216,10 +219,11 @@
     for (int i = 0; i<_tabNames.count; i++) {
         UIButton *tabButton = [[UIButton alloc] initWithFrame:(CGRectMake(tabWidth * i, 0, tabWidth, kMultiScrollViewTabHeight))];
         [tabButton setTitle:_tabNames[i] forState:(UIControlStateNormal)];
-        [tabButton setTitleColor:i == _selectedTabIndex ? _tabHighlightColor : kNormalTextColor forState:(UIControlStateNormal)];
+        [tabButton setTitleColor:i == _selectedTabIndex ? _tabHighlightColor : _tabNormalColor forState:(UIControlStateNormal)];
         [tabButton setContentHorizontalAlignment:(UIControlContentHorizontalAlignmentCenter)];
         tabButton.tag = kTabButtonTag + i;
         [tabButton addTarget:self action:@selector(switchTabView:) forControlEvents:(UIControlEventTouchUpInside)];
+        tabButton.titleLabel.font = _tabTextFont;
         
         [tabView addSubview:tabButton];
         
@@ -232,8 +236,14 @@
     _tabIndicator.backgroundColor = _tabHighlightColor;
     [tabView addSubview:_tabIndicator];
     
+    _tabIndicator.hidden = !_showIndicator;
+    
     [_headerContainer addSubview:tabView];
+}
 
+-(void)setShowIndicator:(BOOL)showIndicator{
+    _showIndicator = showIndicator;
+    _tabIndicator.hidden = !showIndicator;
 }
 
 -(void)switchTabView:(UIButton *)button{
@@ -244,13 +254,14 @@
         return;
     }
     
-    [self startSwitchTabView];
-    
     //点击造成的横向滚动过程中不再响应事件，知道滚动结束
     self.userInteractionEnabled = NO;
+    _clickToSwitchTab = YES;
+    
+    [self startSwitchTabView];
     
     CGFloat totalWidth = _tabViewContainer.frame.size.width;
-    _destinationsIndex = tabIndex;
+    //_destinationsIndex = tabIndex;
     
     [_tabViewContainer setContentOffset:(CGPointMake(totalWidth * tabIndex, 0)) animated:YES];
 }
@@ -263,12 +274,14 @@
     CGFloat totalWidth = _tabViewContainer.frame.size.width;
     CGFloat tabWidth = totalWidth / _tabNames.count;
     
-    [UIView animateWithDuration:0.15 animations:^{
-        _tabIndicator.transform = CGAffineTransformMakeTranslation(tabWidth * index, 0);
-    }];
+    if (_showIndicator) {
+        [UIView animateWithDuration:0.15 animations:^{
+            _tabIndicator.transform = CGAffineTransformMakeTranslation(tabWidth * index, 0);
+        }];
+    }
     
     UIButton *lastTabButton = _tabButtons[_selectedTabIndex];
-    [lastTabButton setTitleColor:kNormalTextColor forState:(UIControlStateNormal)];
+    [lastTabButton setTitleColor:_tabNormalColor forState:(UIControlStateNormal)];
     UIButton *curTabButton = _tabButtons[index];
     [curTabButton setTitleColor:_tabHighlightColor forState:(UIControlStateNormal)];
     
@@ -311,7 +324,6 @@
         
         if (_moveHeaderOnlyContentTop) {
             
-            
             if (headerFrame.origin.y > -headerFrame.size.height) {
                 
                 headerFrame.origin.y = _topSpace + offsetY + kMultiScrollViewTabHeight - headerFrame.size.height;
@@ -350,10 +362,10 @@
             [_headerContainer.superview bringSubviewToFront:_headerContainer];
         }
         
-//        //头部跟随滑动时，即内容视图到顶时，每页的scrollView的offset要相同，否则横向滑动会出现内容没到顶和头部没到顶共存的情况
-//        if (offsetY <= -kMultiScrollViewTabHeight-_topSpace && _moveHeaderOnlyContentTop) {
-//            [self synctabScrollViewOffsetY:offsetY exclusive:scrollView];
-//        }
+        //        //头部跟随滑动时，即内容视图到顶时，每页的scrollView的offset要相同，否则横向滑动会出现内容没到顶和头部没到顶共存的情况
+        //        if (offsetY <= -kMultiScrollViewTabHeight-_topSpace && _moveHeaderOnlyContentTop) {
+        //            [self synctabScrollViewOffsetY:offsetY exclusive:scrollView];
+        //        }
         
         //加上contentInset.top后为内容超出顶部的实际距离
         if ([self.delegate respondsToSelector:@selector(multiTabScrollView:offsetChanged:)]) {
@@ -403,47 +415,49 @@
     NSInteger tabIndex = scrollView.contentOffset.x / scrollView.frame.size.width + 0.5;
     [self changeIndicatorToIndex:tabIndex];
     
-    //把头部调到横向滑动的scrollView上去
-    if (_headerContainer.superview != _tabViewContainer) {
-        
-        CGRect headerFrame = _headerContainer.frame;
-        
-        _headerContainer.frame = [_tabViewContainer convertRect:headerFrame fromView:_headerContainer.superview];
-        [_tabViewContainer addSubview:_headerContainer];
+    if (_headerContainer.superview == _tabViewContainer) {
+        CGRect frame = _headerContainer.frame;
+        frame.origin.x = scrollView.contentOffset.x;
+        _headerContainer.frame = frame;
     }
     
-    CGRect frame = _headerContainer.frame;
-    frame.origin.x = scrollView.contentOffset.x;
-    _headerContainer.frame = frame;
-    
-    //调用srollView的setContentOffset不执行EndDecelerating代理，只有在这里处理一下了
-    if (_destinationsIndex != kTFDestinationsIndexEmpty && scrollView.contentOffset.x == _destinationsIndex * scrollView.frame.size.width && !scrollView.isDragging) {
-        
+}
+
+-(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
+    [self switchTabViewCompleted];
+}
+
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    if (!_clickToSwitchTab) {
         [self switchTabViewCompleted];
     }
 }
 
--(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-    [self switchTabViewCompleted];
-    
-}
-
 -(void)startSwitchTabView{
+    
+    _headerMoving = YES;
     [_visableHeaderHDic setObject:@(_currentVisableHeaderH) forKey:@(_selectedTabIndex)];
     [self adjustContentScrollViewOffsetToFollowHeader];
+    
+    //move to tab view container;
+    CGRect headerFrame = _headerContainer.frame;
+    _headerContainer.frame = [_tabViewContainer convertRect:headerFrame fromView:_headerContainer.superview];
+    [_tabViewContainer addSubview:_headerContainer];
 }
 
 -(void)switchTabViewCompleted{
-    
+    if (!_headerMoving) {
+        return;
+    }
+    _headerMoving = NO;
+    _clickToSwitchTab = NO;
     self.userInteractionEnabled = YES;
-    _destinationsIndex = kTFDestinationsIndexEmpty;
     
     [self moveHeaderToContentView];
     [self clampContentScrollViewOffset];
 }
 
 #pragma mark - 切换分页时调整
-
 
 //滑动结束时，把头部再放回当前显示的scrolView
 -(void)moveHeaderToContentView{
