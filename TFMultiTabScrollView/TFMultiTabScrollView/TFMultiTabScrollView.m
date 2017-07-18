@@ -114,7 +114,9 @@
         _showIndicator = YES;
         _autoFillContent = YES;
         _moveHeaderOnlyContentTop = YES;
+
         _visableHeaderHDic = [[NSMutableDictionary alloc] init];
+
     }
     
     return self;
