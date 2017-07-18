@@ -362,14 +362,9 @@
             [_headerContainer.superview bringSubviewToFront:_headerContainer];
         }
         
-        //        //头部跟随滑动时，即内容视图到顶时，每页的scrollView的offset要相同，否则横向滑动会出现内容没到顶和头部没到顶共存的情况
-        //        if (offsetY <= -kMultiScrollViewTabHeight-_topSpace && _moveHeaderOnlyContentTop) {
-        //            [self synctabScrollViewOffsetY:offsetY exclusive:scrollView];
-        //        }
-        
         //加上contentInset.top后为内容超出顶部的实际距离
         if ([self.delegate respondsToSelector:@selector(multiTabScrollView:offsetChanged:)]) {
-            [self.delegate multiTabScrollView:self offsetChanged:CGPointMake(scrollView.contentOffset.x, offsetY)];
+            [self.delegate multiTabScrollView:self offsetChanged:CGPointMake(scrollView.contentOffset.x, offsetY+scrollView.contentInset.top)];
         }
         
     }else if ([keyPath isEqualToString:@"contentSize"]){
@@ -391,18 +386,18 @@
     }
 }
 
--(void)synctabScrollViewOffsetY:(CGFloat)offsetY exclusive:(UIScrollView *)currentScrollView{
-    for (int i = 0; i<_tabScrollViews.count; i++) {
-        UIScrollView *tabScrollView = _tabScrollViews[i];
-        if (tabScrollView == currentScrollView) {
-            continue;
-        }
-        
-        _ignoreOffsetChangesScrollView = tabScrollView;
-        tabScrollView.contentOffset = CGPointMake(tabScrollView.contentOffset.x,offsetY);
-        _ignoreOffsetChangesScrollView = nil;
-    }
-}
+//-(void)synctabScrollViewOffsetY:(CGFloat)offsetY exclusive:(UIScrollView *)currentScrollView{
+//    for (int i = 0; i<_tabScrollViews.count; i++) {
+//        UIScrollView *tabScrollView = _tabScrollViews[i];
+//        if (tabScrollView == currentScrollView) {
+//            continue;
+//        }
+//
+//        _ignoreOffsetChangesScrollView = tabScrollView;
+//        tabScrollView.contentOffset = CGPointMake(tabScrollView.contentOffset.x,offsetY);
+//        _ignoreOffsetChangesScrollView = nil;
+//    }
+//}
 
 #pragma mark - 横向滑动scrollView
 
