@@ -297,7 +297,7 @@
 #pragma mark - header pan gesture delegate
 
 -(void)headerPan:(UIPanGestureRecognizer *)pan{
-    NSLog(@"headerPan");
+    
 }
 
 -(BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
@@ -335,7 +335,6 @@
                 //内容区域低于头部的底部时，矫正到相等
                 CGFloat minHeaderY = _topSpace + offsetY + kMultiScrollViewTabHeight - headerFrame.size.height;
                 headerFrame.origin.y = MAX(-headerFrame.size.height,minHeaderY);
-                NSLog(@"adjust");
             }
         }else{
             //向上拉出弹簧效果时，不处理
@@ -431,6 +430,10 @@
 }
 
 -(void)startSwitchTabView{
+    //一次移动过程完整，结束才开始下一次
+    if (_headerMoving) {
+        return;
+    }
     
     _headerMoving = YES;
     [_visableHeaderHDic setObject:@(_currentVisableHeaderH) forKey:@(_selectedTabIndex)];
